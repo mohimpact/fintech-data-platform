@@ -1,0 +1,23 @@
+# Project Tasks: Real-Time Fintech Fraud Detection
+
+- [x] **Phase 1: Infrastructure & Data Generation**
+  - [x] Initialize project directory and structure
+  - [x] Create `docker-compose.yml` (Kafka, Zookeeper, MinIO)
+  - [x] Create Python virtual environment and `requirements.txt`
+  - [x] Write Python transaction generator using `Faker` and `kafka-python`
+  - [x] Start Docker containers and verify Kafka topic creation
+- [x] **Phase 2: Ingestion & Stream Processing**
+  - [x] Set up PySpark Structured Streaming application
+  - [x] Integrate Great Expectations for data quality
+  - [x] Write valid data to `clean_transactions` and invalid to DLQ
+- [x] **Phase 3: The Lakehouse (Storage & Batch)**
+  - [x] Configure Spark to write Apache Iceberg format to MinIO
+  - [x] Implement Bronze -> Silver -> Gold Medallion architecture
+- [x] **Phase 4: Orchestration & Governance**
+  - [x] Set up Apache Airflow via Docker
+  - [x] Create DAGs for batch jobs and streaming monitoring
+- [x] **Phase 5: Analytics & CI/CD**
+  - [x] Connect Metabase/Superset to Gold data
+  - [x] Create interactive dashboards
+  - [x] Set up CI/CD pipeline (GitHub Actions)
+  - [x] Finalize documentation

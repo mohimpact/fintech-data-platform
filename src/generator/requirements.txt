@@ -1,0 +1,2 @@
+faker==24.1.0
+confluent-kafka==2.3.0
