@@ -52,8 +52,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: fintechadmin
+      MINIO_ROOT_PASSWORD: fintechadmin123
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
@@ -71,7 +71,7 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/sh", "-c"]
     command: >
-      "mc alias set local http://minio:9000 minioadmin minioadmin &&
+      "mc alias set local http://minio:9000 fintechadmin fintechadmin123 &&
        mc mb --ignore-existing local/warehouse &&
        mc mb --ignore-existing local/checkpoints"
 
@@ -106,8 +106,8 @@ services:
         condition: service_completed_successfully
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_ACCESS_KEY_ID: fintechadmin
+      AWS_SECRET_ACCESS_KEY: fintechadmin123
       S3_ENDPOINT: http://minio:9000
       WAREHOUSE_PATH: s3a://warehouse/
       BRONZE_CHECKPOINT: /app/checkpoints/bronze_ingestion
@@ -138,14 +138,27 @@ services:
       AIRFLOW__WEBSERVER__WEB_SERVER_WORKER_TIMEOUT: 300
       AIRFLOW__WEBSERVER__WEB_SERVER_MASTER_TIMEOUT: 300
       AIRFLOW__WEBSERVER__WORKERS: 1
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_ACCESS_KEY_ID: fintechadmin
+      AWS_SECRET_ACCESS_KEY: fintechadmin123
       S3_ENDPOINT: http://minio:9000
       WAREHOUSE_PATH: s3a://warehouse/
-      _AIRFLOW_WWW_USER_CREATE: "true"
-      _AIRFLOW_WWW_USER_USERNAME: airflow
-      _AIRFLOW_WWW_USER_PASSWORD: airflow
-    command: standalone
+      AIRFLOW_ADMIN_USERNAME: fintechadmin
+      AIRFLOW_ADMIN_PASSWORD: fintechadmin123
+      AIRFLOW_ADMIN_EMAIL: admin@example.com
+    command:
+      - bash
+      - -c
+      - |
+        airflow db migrate &&
+        airflow users create \
+          --username "$${AIRFLOW_ADMIN_USERNAME}" \
+          --password "$${AIRFLOW_ADMIN_PASSWORD}" \
+          --firstname Fintech \
+          --lastname Admin \
+          --role Admin \
+          --email "$${AIRFLOW_ADMIN_EMAIL}" || true
+        airflow scheduler &
+        exec airflow webserver --port 8080
 
   analytics-dashboard:
     build:
@@ -158,8 +171,8 @@ services:
     ports:
       - "8501:8501"
     environment:
-      AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_ACCESS_KEY_ID: fintechadmin
+      AWS_SECRET_ACCESS_KEY: fintechadmin123
       S3_ENDPOINT: http://minio:9000
       GOLD_DATA_PATH: warehouse/local/gold/merchant_metrics/data
     restart: unless-stopped

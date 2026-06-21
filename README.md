@@ -46,8 +46,8 @@ docker compose up --build -d
 
 ### Local Credentials
 
-- MinIO: `http://localhost:9001` (`minioadmin` / `minioadmin`)
-- Airflow: `http://localhost:8080` (`airflow` / `airflow`)
+- MinIO: `http://localhost:9001` (`fintechadmin` / `fintechadmin123`)
+- Airflow: `http://localhost:8080` (`fintechadmin` / `fintechadmin123`)
 - Dashboard: `http://localhost:8501`
 
 ### What Starts

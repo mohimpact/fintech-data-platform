@@ -45,8 +45,8 @@ def load_gold_data_from_minio() -> pd.DataFrame:
 
     endpoint = os.getenv("S3_ENDPOINT", "http://127.0.0.1:9000")
     filesystem = s3fs.S3FileSystem(
-        key=os.getenv("AWS_ACCESS_KEY_ID", "minioadmin"),
-        secret=os.getenv("AWS_SECRET_ACCESS_KEY", "minioadmin"),
+        key=os.getenv("AWS_ACCESS_KEY_ID", "fintechadmin"),
+        secret=os.getenv("AWS_SECRET_ACCESS_KEY", "fintechadmin123"),
         client_kwargs={"endpoint_url": endpoint},
     )
 

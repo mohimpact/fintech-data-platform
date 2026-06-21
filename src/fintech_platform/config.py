@@ -30,8 +30,8 @@ class KafkaConfig:
 
 @dataclass(frozen=True)
 class LakehouseConfig:
-    access_key: str = os.getenv("AWS_ACCESS_KEY_ID", "minioadmin")
-    secret_key: str = os.getenv("AWS_SECRET_ACCESS_KEY", "minioadmin")
+    access_key: str = os.getenv("AWS_ACCESS_KEY_ID", "fintechadmin")
+    secret_key: str = os.getenv("AWS_SECRET_ACCESS_KEY", "fintechadmin123")
     endpoint: str = os.getenv("S3_ENDPOINT", "http://minio:9000")
     warehouse_path: str = os.getenv("WAREHOUSE_PATH", "s3a://warehouse/")
     catalog_name: str = os.getenv("ICEBERG_CATALOG", "local")
