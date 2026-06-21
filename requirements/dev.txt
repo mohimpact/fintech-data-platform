@@ -1,0 +1,4 @@
+-r producer.txt
+-r analytics.txt
+pytest==8.2.2
+flake8==7.1.0

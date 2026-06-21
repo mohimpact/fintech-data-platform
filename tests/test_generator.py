@@ -1,22 +1,22 @@
-import pytest
-from src.generator.generator import generate_transaction
+from fintech_platform.config import VALID_CURRENCIES, VALID_MERCHANT_CATEGORIES
+from fintech_platform.producer import generate_transaction
+
 
 def test_generate_transaction_schema():
-    """
-    Test that the generator produces a transaction with the required fields
-    and correct data types.
-    """
     txn = generate_transaction()
-    
-    # Check that required keys are present
+
     expected_keys = {
-        "transaction_id", "user_id", "amount", 
-        "currency", "timestamp", "merchant_name", 
-        "merchant_category", "location"
+        "transaction_id",
+        "user_id",
+        "amount",
+        "currency",
+        "timestamp",
+        "merchant_name",
+        "merchant_category",
+        "location",
     }
     assert expected_keys.issubset(txn.keys())
-    
-    # Check data types
+
     assert isinstance(txn["transaction_id"], str)
     assert isinstance(txn["user_id"], int)
     assert isinstance(txn["amount"], float)
@@ -25,6 +25,8 @@ def test_generate_transaction_schema():
     assert isinstance(txn["merchant_name"], str)
     assert isinstance(txn["merchant_category"], str)
     assert isinstance(txn["location"], str)
-    
-    # Ensure amount is positive
+
     assert txn["amount"] > 0
+    assert txn["currency"] in VALID_CURRENCIES
+    assert txn["merchant_category"] in VALID_MERCHANT_CATEGORIES
+    assert len(txn["location"]) == 2

@@ -1,0 +1,22 @@
+flowchart TD
+    subgraph Producers
+        A[fintech_platform.producer] -->|JSON| B[(Kafka: raw_transactions)]
+    end
+
+    subgraph Streaming
+        B --> C[fintech_platform.streaming]
+        C -->|valid + fraud flag| D[(Kafka: clean_transactions)]
+        C -->|malformed records| E[(Kafka: dead_letter_queue)]
+    end
+
+    subgraph Lakehouse
+        D --> F[fintech_platform.lakehouse.bronze]
+        F --> G[(Iceberg: local.bronze.transactions)]
+        G --> H[Airflow DAG: silver_gold_etl]
+        H --> I[(Iceberg: local.silver.transactions)]
+        H --> J[(Iceberg: local.gold.merchant_metrics)]
+    end
+
+    subgraph Analytics
+        J --> K[Streamlit dashboard]
+    end
